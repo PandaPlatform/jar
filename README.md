@@ -14,10 +14,6 @@ We are working on our documentation for the framework which will can found on th
 
 Thank you for considering contributing to the Panda framework! The contribution guide can be found in the [Panda documentation](http://pandaphp.org/docs/contributions).
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Panda framework, please send an e-mail to Ioannis Papikas at papikas.ioan@gmail.com. All security vulnerabilities will be promptly addressed.
-
 ## License
 
 The Panda framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
