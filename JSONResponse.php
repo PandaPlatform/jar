@@ -3,16 +3,14 @@
 namespace Panda\Jar;
 
 /**
- * JSON Server Report
- * Creates an asynchronous server report in JSON format according to user request.
+ * JSON Async Response
+ * Creates an asynchronous server response in JSON format according to user request.
  *
- * @package    Panda\Jar
+ * @package Panda\Jar
  *
- * @version    0.1
- *
- * @deprecated Use JSONResponse instead.
+ * @version 0.1
  */
-class JSONServerReport extends ServerReport
+class JSONResponse extends AsyncResponse
 {
     /**
      * The content 'json' type.
@@ -36,36 +34,34 @@ class JSONServerReport extends ServerReport
     const CONTENT_XML = 'xml';
 
     /**
-     * The content 'action' type.
+     * The content 'event' type.
      *
      * @type string
      */
-    const CONTENT_ACTION = 'action';
+    const CONTENT_EVENT = 'event';
 
     /**
-     * Adds a content report to the report stack.
+     * Push a content to the response stack.
      *
-     * @param array  $content The body of the report content.
+     * @param array  $content The body of the response content.
      * @param string $key     The content key value.
      *                        If set, the content will be available at the given key, otherwise it will inserted in the
      *                        array with a numeric key (next array key).
      * @param string $type    The content's type.
-     *                        See class constants.
-     *                        It is CONTENT_JSON by default.
      *
      * @return $this
      */
-    public function addReportContent($content, $key = '', $type = self::CONTENT_JSON)
+    public function addResponseContent($content, $key = '', $type = self::CONTENT_JSON)
     {
-        // Get report content
-        $reportContent = $this->getReportContent($type, $content);
+        // Generate the response content
+        $responseContent = $this->generateResponseContent($type, $content);
 
         // Append to reports
-        return parent::addReportContent($reportContent, $key);
+        return parent::addResponseContent($responseContent, $key);
     }
 
     /**
-     * Adds an action report to the report stack.
+     * Push an event content to the response.
      *
      * @param string $name  The action name
      * @param string $value The action value.
@@ -75,30 +71,30 @@ class JSONServerReport extends ServerReport
      *
      * @return $this
      */
-    public function addActionContent($name = '', $value = '', $key = '')
+    public function addEventContent($name = '', $value = '', $key = '')
     {
         // Create Action Report Content
-        $actionContent = $this->getActionContent($name, $value);
+        $eventContent = $this->generateEventContent($name, $value);
 
-        // Append to reports
-        return $this->addAction($actionContent, $key);
+        // Append to response content
+        return $this->addEvent($eventContent, $key);
     }
 
     /**
-     * Adds an action report to the report stack.
+     * Push an event content array to the response.
      *
-     * @param array  $actionContent The action array.
+     * @param array  $eventContent  The event array.
      * @param string $key           The action key value.
      *                              If set, the action will be available at the given key, otherwise it will inserted
      *                              in the array with a numeric key (next array key).
      *
      * @return $this
      */
-    public function addAction($actionContent = [], $key = '')
+    public function addEvent($eventContent = [], $key = '')
     {
-        $reportContent = $this->getReportContent($type = self::CONTENT_ACTION, $actionContent);
+        $responseContent = $this->generateResponseContent($type = self::CONTENT_EVENT, $eventContent);
 
-        return parent::addReportContent($reportContent, $key);
+        return parent::addResponseContent($responseContent, $key);
     }
 
     /**
@@ -125,62 +121,60 @@ class JSONServerReport extends ServerReport
         }
 
         // Set content
-        $fullReport = array();
-        $fullReport['headers'] = $this->getResponseHeaders();
-        $fullReport['content'] = $this->getResponseContent();
-        $this->setContent(json_encode($fullReport, JSON_FORCE_OBJECT));
+        $responseContent = array();
+        $responseContent['headers'] = $this->getResponseHeaders();
+        $responseContent['content'] = $this->getResponseContent();
+        $this->setContent(json_encode($responseContent, JSON_FORCE_OBJECT));
 
         // Get the report
         return parent::send(parent::CONTENT_APP_JSON);
     }
 
     /**
-     * Parse a server report content as generated with a ServerReport class.
+     * Parse a server response content as generated with an AsyncResponse class.
      *
-     * @param string $report   The report content.
-     * @param array  $actions  The array where all the actions will be appended to be returned to the caller, by action
-     *                         key. It is a call by reference. It is empty array by default.
-     * @param array  $contents The array where all the content will be appended to be returned to the caller, by
-     *                         content type and key. It is a call by reference. It is empty array by default.
+     * @param string $response The response content.
      * @param array  $headers  The array where all the head will be appended to be returned to the caller, by head key
      *                         name. It is a call by reference. It is empty array by default.
+     * @param array  $content  The array where all the content will be appended to be returned to the caller, by
+     *                         content type and key. It is a call by reference. It is empty array by default.
+     * @param array  $events   The array where all the events will be appended to be returned to the caller, by event
+     *                         key. It is a call by reference. It is empty array by default.
      *
      * @return array
      */
-    public function parseReportContent($report, &$actions = array(), &$contents = array(), &$headers = array())
+    public function parseResponseContent($response, &$headers = array(), &$content = array(), &$events = array())
     {
         // Decode report to array (from json)
-        $reportArray = json_decode($report, true);
-        if (empty($reportArray)) {
-            $reportArray = $report;
+        $responseArray = json_decode($response, true);
+        if (empty($responseArray)) {
+            $responseArray = $response;
         }
 
         // Get report body
-        foreach ($reportArray['body'] as $key => $body) {
+        foreach ($responseArray['content'] as $key => $contentBody) {
             // Get body type and switch actions
-            $type = $body['type'];
+            $type = $contentBody['type'];
             switch ($type) {
-                case self::CONTENT_ACTION:
-                    // Add action to list
-                    $actions[$key] = $body['payload'];
+                case self::CONTENT_EVENT:
+                    $events[$key] = $contentBody['payload'];
                     break;
                 case self::CONTENT_JSON:
                 case self::CONTENT_HTML:
-                    // Add content to list
-                    $contents[$type][$key] = $body['payload'];
+                    $content[$type][$key] = $contentBody['payload'];
             }
         }
 
         // Get report header
-        $headers = $reportArray['head'];
+        $headers = $responseArray['headers'];
 
         // Return parsed report
-        $parsedReport = array();
-        $parsedReport['head'] = $headers;
-        $parsedReport['actions'] = $actions;
-        $parsedReport['contents'] = $contents;
+        $parsedResponse = array();
+        $parsedResponse['headers'] = $headers;
+        $parsedResponse['events'] = $events;
+        $parsedResponse['content'] = $content;
 
-        return $parsedReport;
+        return $parsedResponse;
     }
 
     /**
@@ -191,7 +185,7 @@ class JSONServerReport extends ServerReport
      *
      * @return array The report content array.
      */
-    protected function getReportContent($type = self::CONTENT_JSON, $payload = null)
+    protected function generateResponseContent($type = self::CONTENT_JSON, $payload = null)
     {
         // Build Report Content
         $content = array();
@@ -215,7 +209,7 @@ class JSONServerReport extends ServerReport
      * @return array The action array context.
      *
      */
-    protected function getActionContent($name, $value)
+    protected function generateEventContent($name, $value)
     {
         // Create context
         $action = array();

@@ -10,89 +10,14 @@ use Symfony\Component\HttpFoundation\Response;
  * Creates an asynchronous server report according to user request.
  * Abstract class that provides the right function handlers for forming a server report.
  *
- * @package Panda\Jar
+ * @package    Panda\Jar
  *
- * @version 0.1
+ * @version    0.1
+ *
+ * @deprecated Use AsyncResponse instead.
  */
-abstract class ServerReport extends Response
+abstract class ServerReport extends AsyncResponse
 {
-    /**
-     * The text/html content-type
-     *
-     * @type    string
-     */
-    const CONTENT_TEXT_HTML = "text/html; charset=utf-8";
-
-    /**
-     * The text/xml content-type
-     *
-     * @type    string
-     */
-    const CONTENT_TEXT_XML = "text/xml";
-
-    /**
-     * The text/plain content-type
-     *
-     * @type    string
-     */
-    const CONTENT_TEXT_PLAIN = "text/plain";
-
-    /**
-     * The text/javascript content-type
-     *
-     * @type    string
-     */
-    const CONTENT_TEXT_JS = "text/javascript";
-
-    /**
-     * The text/css content-type
-     *
-     * @type    string
-     */
-    const CONTENT_TEXT_CSS = "text/css";
-
-    /**
-     * The application/pdf content-type
-     *
-     * @type    string
-     */
-    const CONTENT_APP_PDF = "application/pdf";
-
-    /**
-     * The application/zip content-type
-     *
-     * @type    string
-     */
-    const CONTENT_APP_ZIP = "application/zip";
-
-    /**
-     * The application/octet-stream content-type
-     *
-     * @type    string
-     */
-    const CONTENT_APP_STREAM = "application/octet-stream";
-
-    /**
-     * The application/json content-type
-     *
-     * @type    string
-     */
-    const CONTENT_APP_JSON = "application/json";
-
-    /**
-     * Contains all the reports that will be handled separately.
-     *
-     * @type array
-     */
-    protected $reportContents = array();
-
-    /**
-     * Contains all the headers in order to prepare the ground for the reports.
-     *
-     * @type array
-     */
-    protected $reportHeaders = array();
-
     /**
      * Adds a header to the report.
      *
@@ -108,15 +33,7 @@ abstract class ServerReport extends Response
      */
     public function addReportHeader($header, $key = "", $merge = true)
     {
-        if (empty($key)) {
-            $this->reportHeaders[] = $header;
-        } else if ($merge && !empty($this->reportHeaders[$key])) {
-            $this->reportHeaders[$key] = array_merge($this->reportHeaders[$key], $header);
-        } else {
-            $this->reportHeaders[$key] = $header;
-        }
-
-        return $this;
+        return $this->addResponseHeader($header, $key, $merge);
     }
 
     /**
@@ -132,28 +49,7 @@ abstract class ServerReport extends Response
      */
     public function addReportContent($report, $key = "")
     {
-        if (empty($key)) {
-            $this->reportContents[] = $report;
-        } else {
-            $this->reportContents[$key] = $report;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Sends the server report to the output buffer.
-     *
-     * @param string $type
-     *
-     * @return $this
-     */
-    public function send($type = self::CONTENT_TEXT_HTML)
-    {
-        // Set content type and send
-        $this->headers->set('Content-Type', $type);
-
-        return parent::send();
+        return $this->addResponseContent($report, $key);
     }
 
     /**
@@ -161,7 +57,7 @@ abstract class ServerReport extends Response
      */
     public function getReportContents()
     {
-        return $this->reportContents;
+        return $this->getResponseContent();
     }
 
     /**
@@ -169,7 +65,7 @@ abstract class ServerReport extends Response
      */
     public function getReportHeaders()
     {
-        return $this->reportHeaders;
+        return $this->getResponseHeaders();
     }
 
     /**
@@ -177,6 +73,6 @@ abstract class ServerReport extends Response
      */
     public function clear()
     {
-        $this->reportContents = array();
+        return parent::clear();
     }
 }
