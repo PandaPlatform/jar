@@ -1,6 +1,8 @@
 # Panda Json API Responses Component
 This is the Panda Json API Responses Component.
 
+[![StyleCI](https://styleci.io/repos/61446268/shield)](https://styleci.io/repos/61446268)
+
 This component is able to generate json responses in a structural way, including a head and a body.
 
 ## Panda PHP Framework
