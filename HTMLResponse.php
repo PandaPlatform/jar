@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types = 1);
+
 namespace Panda\Jar;
 
 use DOMElement;
@@ -26,23 +28,23 @@ class HTMLResponse extends JSONResponse
     /**
      * The replace method identifier.
      *
-     * @type    string
+     * @var string
      */
-    const REPLACE_METHOD = "replace";
+    const REPLACE_METHOD = 'replace';
 
     /**
      * The append method identifier.
      *
-     * @type    string
+     * @var string
      */
-    const APPEND_METHOD = "append";
+    const APPEND_METHOD = 'append';
 
     /**
-     * The extra content "popup" type.
+     * The extra content 'popup' type.
      *
-     * @type    string
+     * @var string
      */
-    const CONTENT_POPUP = "popup";
+    const CONTENT_POPUP = 'popup';
 
     /**
      * Push response content.
@@ -60,7 +62,7 @@ class HTMLResponse extends JSONResponse
      *
      * @return $this
      */
-    public function addResponseContent($content, $type = self::CONTENT_HTML, $holder = "", $method = self::REPLACE_METHOD, $key = "")
+    public function addResponseContent($content, $type = self::CONTENT_HTML, $holder = '', $method = self::REPLACE_METHOD, $key = '')
     {
         // Get report content
         $report = $this->generateHTMLResponseContent($content, $holder, $method);

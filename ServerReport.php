@@ -28,17 +28,17 @@ abstract class ServerReport extends AsyncResponse
     /**
      * Adds a header to the report.
      *
-     * @param mixed   $header The header value.
+     * @param mixed  $header  The header value.
      *                        It can vary depending on the report type.
-     * @param string  $key    The header key value.
+     * @param string $key     The header key value.
      *                        If set, the header will be available at the given key, otherwise it will inserted in the
      *                        array with a numeric key (next array key).
-     * @param boolean $merge  Whether to merge the given header with an existing value or not (replace).
+     * @param bool   $merge   Whether to merge the given header with an existing value or not (replace).
      *                        It is TRUE by default.
      *
      * @return $this
      */
-    public function addReportHeader($header, $key = "", $merge = true)
+    public function addReportHeader($header, $key = '', $merge = true)
     {
         return $this->addResponseHeader($header, $key, $merge);
     }
@@ -54,7 +54,7 @@ abstract class ServerReport extends AsyncResponse
      *
      * @return $this
      */
-    public function addReportContent($report, $key = "")
+    public function addReportContent($report, $key = '')
     {
         return $this->addResponseContent($report, $key);
     }

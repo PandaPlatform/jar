@@ -26,28 +26,28 @@ class JSONServerReport extends ServerReport
     /**
      * The content 'json' type.
      *
-     * @type string
+     * @var string
      */
     const CONTENT_JSON = 'json';
 
     /**
      * The content 'html' type.
      *
-     * @type string
+     * @var string
      */
     const CONTENT_HTML = 'html';
 
     /**
      * The content 'xml' type.
      *
-     * @type string
+     * @var string
      */
     const CONTENT_XML = 'xml';
 
     /**
      * The content 'action' type.
      *
-     * @type string
+     * @var string
      */
     const CONTENT_ACTION = 'action';
 
@@ -116,7 +116,7 @@ class JSONServerReport extends ServerReport
      * @param string  $allowOrigin     The allow origin header value for the ServerReport response headers.
      *                                 If empty, calculate the inner allow origin of the framework (more secure).
      *                                 It is empty by default.
-     * @param boolean $withCredentials The allow credentials header value for the ServerReport response headers.
+     * @param bool $withCredentials The allow credentials header value for the ServerReport response headers.
      *                                 It is TRUE by default.
      *
      * @return string The server report in json format.
@@ -134,7 +134,7 @@ class JSONServerReport extends ServerReport
         }
 
         // Set content
-        $fullReport = array();
+        $fullReport = [];
         $fullReport['headers'] = $this->getResponseHeaders();
         $fullReport['content'] = $this->getResponseContent();
         $this->setContent(json_encode($fullReport, JSON_FORCE_OBJECT));
@@ -156,7 +156,7 @@ class JSONServerReport extends ServerReport
      *
      * @return array
      */
-    public function parseReportContent($report, &$actions = array(), &$contents = array(), &$headers = array())
+    public function parseReportContent($report, &$actions = [], &$contents = [], &$headers = [])
     {
         // Decode report to array (from json)
         $reportArray = json_decode($report, true);
@@ -184,7 +184,7 @@ class JSONServerReport extends ServerReport
         $headers = $reportArray['head'];
 
         // Return parsed report
-        $parsedReport = array();
+        $parsedReport = [];
         $parsedReport['head'] = $headers;
         $parsedReport['actions'] = $actions;
         $parsedReport['contents'] = $contents;
@@ -203,7 +203,7 @@ class JSONServerReport extends ServerReport
     protected function getReportContent($type = self::CONTENT_JSON, $payload = null)
     {
         // Build Report Content
-        $content = array();
+        $content = [];
         $content['type'] = $type;
 
         // Add Payload
@@ -227,7 +227,7 @@ class JSONServerReport extends ServerReport
     protected function getActionContent($name, $value)
     {
         // Create context
-        $action = array();
+        $action = [];
         $action['name'] = $name;
         $action['value'] = $value;
 

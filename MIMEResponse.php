@@ -12,16 +12,14 @@
 namespace Panda\Jar;
 
 /**
- * Multipurpose Internet Mail Extensions (MIME) Server Report
+ * Multipurpose Internet Mail Extensions (MIME) Response
  * Returns an http response and performs a download of a server file.
  *
  * @package Panda\Jar
  *
  * @version 0.1
- *
- * @deprecated
  */
-class MIMEServerReport extends ServerReport
+class MIMEResponse extends AsyncResponse
 {
     /**
      * Sets the response headers and returns the given file to be downloaded.

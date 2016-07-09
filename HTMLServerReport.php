@@ -26,23 +26,23 @@ class HTMLServerReport extends JSONServerReport
     /**
      * The replace method identifier.
      *
-     * @type    string
+     * @var string
      */
-    const REPLACE_METHOD = "replace";
+    const REPLACE_METHOD = 'replace';
 
     /**
      * The append method identifier.
      *
-     * @type    string
+     * @var string
      */
-    const APPEND_METHOD = "append";
+    const APPEND_METHOD = 'append';
 
     /**
-     * The extra content "popup" type.
+     * The extra content 'popup' type.
      *
-     * @type    string
+     * @var string
      */
-    const CONTENT_POPUP = "popup";
+    const CONTENT_POPUP = 'popup';
 
     /**
      * Adds a content report to the report stack.
@@ -63,7 +63,7 @@ class HTMLServerReport extends JSONServerReport
      *
      * @return $this
      */
-    public function addReportContent($content, $type = self::CONTENT_HTML, $holder = "", $method = self::REPLACE_METHOD, $key = "")
+    public function addReportContent($content, $type = self::CONTENT_HTML, $holder = '', $method = self::REPLACE_METHOD, $key = '')
     {
         // Get report content
         $report = $this->getHTMLReportContent($content, $holder, $method);
@@ -89,7 +89,7 @@ class HTMLServerReport extends JSONServerReport
     protected function getHTMLReportContent($content = null, $holder = null, $method = self::REPLACE_METHOD)
     {
         // Create content array
-        $reportContent = array();
+        $reportContent = [];
         $reportContent['holder'] = $holder;
         $reportContent['method'] = $method;
 

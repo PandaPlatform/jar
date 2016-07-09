@@ -24,28 +24,28 @@ class JSONResponse extends AsyncResponse
     /**
      * The content 'json' type.
      *
-     * @type string
+     * @var string
      */
     const CONTENT_JSON = 'json';
 
     /**
      * The content 'html' type.
      *
-     * @type string
+     * @var string
      */
     const CONTENT_HTML = 'html';
 
     /**
      * The content 'xml' type.
      *
-     * @type string
+     * @var string
      */
     const CONTENT_XML = 'xml';
 
     /**
      * The content 'event' type.
      *
-     * @type string
+     * @var string
      */
     const CONTENT_EVENT = 'event';
 
@@ -112,7 +112,7 @@ class JSONResponse extends AsyncResponse
      * @param string  $allowOrigin     The allow origin header value for the ServerReport response headers.
      *                                 If empty, calculate the inner allow origin of the framework (more secure).
      *                                 It is empty by default.
-     * @param boolean $withCredentials The allow credentials header value for the ServerReport response headers.
+     * @param bool $withCredentials The allow credentials header value for the ServerReport response headers.
      *                                 It is TRUE by default.
      *
      * @return string The server report in json format.
@@ -130,7 +130,7 @@ class JSONResponse extends AsyncResponse
         }
 
         // Set content
-        $responseContent = array();
+        $responseContent = [];
         $responseContent['headers'] = $this->getResponseHeaders();
         $responseContent['content'] = $this->getResponseContent();
         $this->setContent(json_encode($responseContent, JSON_FORCE_OBJECT));
@@ -152,7 +152,7 @@ class JSONResponse extends AsyncResponse
      *
      * @return array
      */
-    public function parseResponseContent($response, &$headers = array(), &$content = array(), &$events = array())
+    public function parseResponseContent($response, &$headers = [], &$content = [], &$events = [])
     {
         // Decode report to array (from json)
         $responseArray = json_decode($response, true);
@@ -178,7 +178,7 @@ class JSONResponse extends AsyncResponse
         $headers = $responseArray['headers'];
 
         // Return parsed report
-        $parsedResponse = array();
+        $parsedResponse = [];
         $parsedResponse['headers'] = $headers;
         $parsedResponse['events'] = $events;
         $parsedResponse['content'] = $content;
@@ -197,7 +197,7 @@ class JSONResponse extends AsyncResponse
     protected function generateResponseContent($type = self::CONTENT_JSON, $payload = null)
     {
         // Build Report Content
-        $content = array();
+        $content = [];
         $content['type'] = $type;
 
         // Add Payload
@@ -221,7 +221,7 @@ class JSONResponse extends AsyncResponse
     protected function generateEventContent($name, $value)
     {
         // Create context
-        $action = array();
+        $action = [];
         $action['name'] = $name;
         $action['value'] = $value;
 
