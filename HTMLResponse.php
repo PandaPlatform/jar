@@ -88,7 +88,7 @@ class HTMLResponse extends JSONResponse
         }
 
         // Create content array
-        $responseContent = array();
+        $responseContent = [];
         if (!empty($holder)) {
             $responseContent['holder'] = $holder;
         }

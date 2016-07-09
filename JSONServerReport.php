@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types = 1);
+
 namespace Panda\Jar;
 
 /**
@@ -222,7 +224,6 @@ class JSONServerReport extends ServerReport
      * @param mixed  $value The action value.
      *
      * @return array The action array context.
-     *
      */
     protected function getActionContent($name, $value)
     {

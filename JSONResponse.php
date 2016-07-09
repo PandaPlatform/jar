@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types = 1);
+
 namespace Panda\Jar;
 
 /**
@@ -214,7 +216,6 @@ class JSONResponse extends AsyncResponse
      * @param mixed  $value The event value.
      *
      * @return array The event array content.
-     *
      */
     protected function generateEventContent($name, $value)
     {
