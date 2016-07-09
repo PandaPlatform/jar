@@ -49,14 +49,8 @@ class HTMLServerReport extends JSONServerReport
      *
      * @param DOMElement|string $content The body of the report content.
      * @param string            $type    The content's type.
-     *                                   See class constants.
-     *                                   It is CONTENT_HTML by default.
-     * @param string            $holder  The holder where the content will be inserted in the DOM.
-     *                                   It's a CSS selector.
-     *                                   Empty by default.
+     * @param string            $holder  The holder where the content will be inserted in the DOM as a css selector.
      * @param string            $method  Defines whether the content will replace the existing or will be appended.
-     *                                   See class constants.
-     *                                   It is REPLACE_METHOD by default.
      * @param string            $key     The content key value.
      *                                   If set, the content will be available at the given key, otherwise it will
      *                                   inserted in the array with a numeric key (next array key).
@@ -76,13 +70,8 @@ class HTMLServerReport extends JSONServerReport
      * Creates a report content as a DOMElement inside the report.
      *
      * @param DOMElement|string $content The report content.
-     *                                   It is NULL by default.
      * @param string            $holder  The holder where the content will be inserted in the DOM.
-     *                                   It's a CSS selector.
-     *                                   Empty by default.
      * @param string            $method  Defines whether the content will replace the existing or will be appended.
-     *                                   See class constants.
-     *                                   It is REPLACE_METHOD by default.
      *
      * @return array The report content array for the server report.
      */

@@ -113,11 +113,11 @@ class JSONServerReport extends ServerReport
     /**
      * Get the json server report.
      *
-     * @param string  $allowOrigin     The allow origin header value for the ServerReport response headers.
-     *                                 If empty, calculate the inner allow origin of the framework (more secure).
-     *                                 It is empty by default.
-     * @param bool $withCredentials The allow credentials header value for the ServerReport response headers.
-     *                                 It is TRUE by default.
+     * @param string $allowOrigin     The allow origin header value for the ServerReport response headers.
+     *                                If empty, calculate the inner allow origin of the framework (more secure).
+     *                                It is empty by default.
+     * @param bool   $withCredentials The allow credentials header value for the ServerReport response headers.
+     *                                It is TRUE by default.
      *
      * @return string The server report in json format.
      */

@@ -24,13 +24,13 @@ class MIMEResponse extends AsyncResponse
     /**
      * Sets the response headers and returns the given file to be downloaded.
      *
-     * @param string  $file              The path of the file to be downloaded.
-     * @param string  $type              The response file Content-type.
-     *                                   See HttpResponse content types.
-     * @param string  $suggestedFileName The suggested file name for downloading the server file.
-     *                                   Leave empty and it will be the file original name.
-     *                                   It is empty by default.
-     * @param bool $ignore_user_abort Indicator for aborting the running script upon user cancel action.
+     * @param string $file              The path of the file to be downloaded.
+     * @param string $type              The response file Content-type.
+     *                                  See HttpResponse content types.
+     * @param string $suggestedFileName The suggested file name for downloading the server file.
+     *                                  Leave empty and it will be the file original name.
+     *                                  It is empty by default.
+     * @param bool   $ignore_user_abort Indicator for aborting the running script upon user cancel action.
      *
      * @return $this
      */

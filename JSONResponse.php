@@ -65,7 +65,7 @@ class JSONResponse extends AsyncResponse
         // Generate the response content
         $responseContent = $this->generateResponseContent($type, $content);
 
-        // Append to reports
+        // Append to responses
         return parent::addResponseContent($responseContent, $key);
     }
 
@@ -82,7 +82,7 @@ class JSONResponse extends AsyncResponse
      */
     public function addEventContent($name = '', $value = '', $key = '')
     {
-        // Create Action Report Content
+        // Create Action Response Content
         $eventContent = $this->generateEventContent($name, $value);
 
         // Append to response content
@@ -92,10 +92,10 @@ class JSONResponse extends AsyncResponse
     /**
      * Push an event content array to the response.
      *
-     * @param array  $eventContent  The event array.
-     * @param string $key           The action key value.
-     *                              If set, the action will be available at the given key, otherwise it will inserted
-     *                              in the array with a numeric key (next array key).
+     * @param array  $eventContent The event array.
+     * @param string $key          The event key value.
+     *                             If set, the action will be available at the given key, otherwise it will inserted
+     *                             in the array with a numeric key (next array key).
      *
      * @return $this
      */
@@ -107,15 +107,13 @@ class JSONResponse extends AsyncResponse
     }
 
     /**
-     * Get the json server report.
+     * Send the json server response.
      *
-     * @param string  $allowOrigin     The allow origin header value for the ServerReport response headers.
-     *                                 If empty, calculate the inner allow origin of the framework (more secure).
-     *                                 It is empty by default.
-     * @param bool $withCredentials The allow credentials header value for the ServerReport response headers.
-     *                                 It is TRUE by default.
+     * @param string $allowOrigin     The allow origin header value for the AsyncResponse response headers.
+     *                                If empty, calculate the inner allow origin of the framework (more secure).
+     * @param bool   $withCredentials The allow credentials header value for the AsyncResponse response headers.
      *
-     * @return string The server report in json format.
+     * @return string The server response in json format.
      */
     public function send($allowOrigin = '', $withCredentials = true)
     {
@@ -135,7 +133,7 @@ class JSONResponse extends AsyncResponse
         $responseContent['content'] = $this->getResponseContent();
         $this->setContent(json_encode($responseContent, JSON_FORCE_OBJECT));
 
-        // Get the report
+        // Send the response
         return parent::send(parent::CONTENT_APP_JSON);
     }
 
@@ -144,23 +142,23 @@ class JSONResponse extends AsyncResponse
      *
      * @param string $response The response content.
      * @param array  $headers  The array where all the head will be appended to be returned to the caller, by head key
-     *                         name. It is a call by reference. It is empty array by default.
+     *                         name.
      * @param array  $content  The array where all the content will be appended to be returned to the caller, by
-     *                         content type and key. It is a call by reference. It is empty array by default.
+     *                         content type and key.
      * @param array  $events   The array where all the events will be appended to be returned to the caller, by event
-     *                         key. It is a call by reference. It is empty array by default.
+     *                         key.
      *
      * @return array
      */
     public function parseResponseContent($response, &$headers = [], &$content = [], &$events = [])
     {
-        // Decode report to array (from json)
+        // Decode response to array (from json)
         $responseArray = json_decode($response, true);
         if (empty($responseArray)) {
             $responseArray = $response;
         }
 
-        // Get report body
+        // Get response body
         foreach ($responseArray['content'] as $key => $contentBody) {
             // Get body type and switch actions
             $type = $contentBody['type'];
@@ -174,10 +172,10 @@ class JSONResponse extends AsyncResponse
             }
         }
 
-        // Get report header
+        // Get response header
         $headers = $responseArray['headers'];
 
-        // Return parsed report
+        // Return parsed response
         $parsedResponse = [];
         $parsedResponse['headers'] = $headers;
         $parsedResponse['events'] = $events;
@@ -187,16 +185,16 @@ class JSONResponse extends AsyncResponse
     }
 
     /**
-     * Creates a report content as an array inside the report.
+     * Creates a response content as an array inside the response.
      *
-     * @param string $type    The report type.
-     * @param mixed  $payload The report payload.
+     * @param string $type    The response type.
+     * @param mixed  $payload The response payload.
      *
-     * @return array The report content array.
+     * @return array The response content array.
      */
     protected function generateResponseContent($type = self::CONTENT_JSON, $payload = null)
     {
-        // Build Report Content
+        // Build Response Content
         $content = [];
         $content['type'] = $type;
 
@@ -210,12 +208,12 @@ class JSONResponse extends AsyncResponse
     }
 
     /**
-     * Builds a JSON action content.
+     * Builds a JSON event content.
      *
-     * @param string $name  The action name.
-     * @param mixed  $value The action value.
+     * @param string $name  The event name.
+     * @param mixed  $value The event value.
      *
-     * @return array The action array context.
+     * @return array The event array content.
      *
      */
     protected function generateEventContent($name, $value)

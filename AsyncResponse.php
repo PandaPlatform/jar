@@ -106,11 +106,11 @@ abstract class AsyncResponse extends Response
     /**
      * Push a header to the response.
      *
-     * @param mixed   $header The header value.
-     * @param string  $key    The header key value.
-     *                        If set, the header will be available at the given key, otherwise it will inserted in the
-     *                        array with a numeric key (next array key).
-     * @param bool $merge  Whether to merge the given header with an existing value or not (replace).
+     * @param mixed  $header The header value.
+     * @param string $key    The header key value.
+     *                       If set, the header will be available at the given key, otherwise it will inserted in the
+     *                       array with a numeric key (next array key).
+     * @param bool   $merge  Whether to merge the given header with an existing value or not (replace).
      *
      * @return $this
      */
@@ -149,7 +149,7 @@ abstract class AsyncResponse extends Response
     }
 
     /**
-     * Sends the server report to the output buffer.
+     * Sends the server response to the output buffer.
      *
      * @param string $type
      *
