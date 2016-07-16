@@ -22,31 +22,24 @@ namespace Panda\Jar;
 class MIMEResponse extends AsyncResponse
 {
     /**
-     * Sets the response headers and returns the given file to be downloaded.
+     * Set the file to send/download.
      *
-     * @param string $file              The path of the file to be downloaded.
-     * @param string $type              The response file Content-type.
-     *                                  See HttpResponse content types.
-     * @param string $suggestedFileName The suggested file name for downloading the server file.
-     *                                  Leave empty and it will be the file original name.
-     *                                  It is empty by default.
-     * @param bool   $ignore_user_abort Indicator for aborting the running script upon user cancel action.
-     *
-     * @return $this
+     * @param mixed  $fileContents
+     * @param string $type
+     * @param string $suggestedFileName
+     * @param bool   $ignore_user_abort
      */
-    public function send($file, $type = self::CONTENT_APP_STREAM, $suggestedFileName = '', $ignore_user_abort = false)
+    public function setFile($fileContents, $type = self::CONTENT_APP_STREAM, $suggestedFileName = '', $ignore_user_abort = false)
     {
         // Set Response Headers
         $this->headers->set('Content-Type', $type);
         $this->headers->set('Content-Disposition', 'attachment; filename=' . $suggestedFileName);
-        $this->headers->set('Content-Length', filesize($file));
+        $this->headers->set('Content-Length', filesize($fileContents));
 
         // Set buffer settings
         ignore_user_abort($ignore_user_abort);
 
-        // Read file
-        echo @file_get_contents($file);
-
-        return $this;
+        // Set response content
+        $this->content = $fileContents;
     }
 }
