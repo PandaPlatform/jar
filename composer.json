@@ -4,8 +4,8 @@
     "license": "MIT",
     "homepage": "http://pandaphp.org",
     "support": {
-        "issues": "https://github.com/PandaPlatform/jar/issues",
-        "source": "https://github.com/PandaPlatform/jar"
+        "issues": "https://github.com/PandaPlatform/panda-jar-be/issues",
+        "source": "https://github.com/PandaPlatform/panda-jar-be"
     },
     "authors": [
         {
@@ -23,11 +23,6 @@
     "autoload": {
         "psr-4": {
             "Panda\\Jar\\": ""
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev"
         }
     }
 }
