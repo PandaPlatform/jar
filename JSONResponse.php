@@ -11,6 +11,8 @@
 
 namespace Panda\Jar;
 
+use InvalidArgumentException;
+
 /**
  * JSON Async Response
  * Creates an asynchronous server response in JSON format according to user request.
@@ -58,7 +60,7 @@ class JSONResponse extends AsyncResponse
      *                        array with a numeric key (next array key).
      * @param string $type    The content's type.
      *
-     * @return $this
+     * @return JSONResponse
      */
     public function addResponseContent($content, $key = '', $type = self::CONTENT_JSON)
     {
@@ -66,7 +68,9 @@ class JSONResponse extends AsyncResponse
         $responseContent = $this->generateResponseContent($type, $content);
 
         // Append to responses
-        return parent::addResponseContent($responseContent, $key);
+        parent::addResponseContent($responseContent, $key);
+
+        return $this;
     }
 
     /**
@@ -78,7 +82,7 @@ class JSONResponse extends AsyncResponse
      *                      If set, the action will be available at the given key, otherwise it will inserted in the
      *                      array with a numeric key (next array key).
      *
-     * @return $this
+     * @return JSONResponse
      */
     public function addEventContent($name = '', $value = '', $key = '')
     {
@@ -97,13 +101,15 @@ class JSONResponse extends AsyncResponse
      *                             If set, the action will be available at the given key, otherwise it will inserted
      *                             in the array with a numeric key (next array key).
      *
-     * @return $this
+     * @return JSONResponse
      */
     public function addEvent($eventContent = [], $key = '')
     {
         $responseContent = $this->generateResponseContent($type = self::CONTENT_EVENT, $eventContent);
 
-        return parent::addResponseContent($responseContent, $key);
+        parent::addResponseContent($responseContent, $key);
+
+        return $this;
     }
 
     /**
@@ -113,7 +119,7 @@ class JSONResponse extends AsyncResponse
      *                                If empty, calculate the inner allow origin of the framework (more secure).
      * @param bool   $withCredentials The allow credentials header value for the AsyncResponse response headers.
      *
-     * @return string The server response in json format.
+     * @return JSONResponse
      */
     public function send($allowOrigin = '', $withCredentials = true)
     {
@@ -134,7 +140,9 @@ class JSONResponse extends AsyncResponse
         $this->setContent(json_encode($responseContent, JSON_FORCE_OBJECT));
 
         // Send the response
-        return parent::send(parent::CONTENT_APP_JSON);
+        parent::send(parent::CONTENT_APP_JSON);
+
+        return $this;
     }
 
     /**
@@ -150,12 +158,23 @@ class JSONResponse extends AsyncResponse
      *
      * @return array
      */
-    public function parseResponseContent($response, &$headers = [], &$content = [], &$events = [])
+    public static function parseResponseContent($response, &$headers = [], &$content = [], &$events = [])
     {
+        // Check arguments
+        if (empty($response)) {
+            throw new InvalidArgumentException('The given response is empty');
+        }
+
         // Decode response to array (from json)
-        $responseArray = json_decode($response, true);
-        if (empty($responseArray)) {
+        if (is_array($response)) {
             $responseArray = $response;
+        } else {
+            $responseArray = json_decode($response, true);
+        }
+
+        // Check if the response is in the right format
+        if (is_null($responseArray)) {
+            throw new InvalidArgumentException('The given response is malformed');
         }
 
         // Get response body

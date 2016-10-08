@@ -36,11 +36,13 @@ abstract class ServerReport extends AsyncResponse
      * @param bool   $merge  Whether to merge the given header with an existing value or not (replace).
      *                       It is TRUE by default.
      *
-     * @return $this
+     * @return ServerReport
      */
     public function addReportHeader($header, $key = '', $merge = true)
     {
-        return $this->addResponseHeader($header, $key, $merge);
+        $this->addResponseHeader($header, $key, $merge);
+
+        return $this;
     }
 
     /**
@@ -52,11 +54,13 @@ abstract class ServerReport extends AsyncResponse
      *                       If set, the context will be available at the given key, otherwise it will inserted in
      *                       the array with a numeric key (next array key).
      *
-     * @return $this
+     * @return ServerReport
      */
     public function addReportContent($report, $key = '')
     {
-        return $this->addResponseContent($report, $key);
+        $this->addResponseContent($report, $key);
+
+        return $this;
     }
 
     /**

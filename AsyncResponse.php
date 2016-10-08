@@ -110,7 +110,7 @@ abstract class AsyncResponse extends Response
      *                       array with a numeric key (next array key).
      * @param bool   $merge  Whether to merge the given header with an existing value or not (replace).
      *
-     * @return $this
+     * @return AsyncResponse
      */
     public function addResponseHeader($header, $key = '', $merge = true)
     {
@@ -133,7 +133,7 @@ abstract class AsyncResponse extends Response
      *                        If set, the context will be available at the given key, otherwise it will inserted in
      *                        the array with a numeric key (next array key).
      *
-     * @return $this
+     * @return AsyncResponse
      */
     public function addResponseContent($content, $key = '')
     {
@@ -151,14 +151,16 @@ abstract class AsyncResponse extends Response
      *
      * @param string $type
      *
-     * @return $this
+     * @return AsyncResponse
      */
     public function send($type = self::CONTENT_TEXT_HTML)
     {
         // Set content type and send
         $this->headers->set('Content-Type', $type);
 
-        return parent::send();
+        parent::send();
+
+        return $this;
     }
 
     /**

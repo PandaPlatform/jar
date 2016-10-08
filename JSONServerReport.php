@@ -62,7 +62,7 @@ class JSONServerReport extends ServerReport
      *                        See class constants.
      *                        It is CONTENT_JSON by default.
      *
-     * @return $this
+     * @return JSONServerReport
      */
     public function addReportContent($content, $key = '', $type = self::CONTENT_JSON)
     {
@@ -70,7 +70,9 @@ class JSONServerReport extends ServerReport
         $reportContent = $this->getReportContent($type, $content);
 
         // Append to reports
-        return parent::addReportContent($reportContent, $key);
+        parent::addReportContent($reportContent, $key);
+
+        return $this;
     }
 
     /**
@@ -82,7 +84,7 @@ class JSONServerReport extends ServerReport
      *                      If set, the action will be available at the given key, otherwise it will inserted in the
      *                      array with a numeric key (next array key).
      *
-     * @return $this
+     * @return JSONServerReport
      */
     public function addActionContent($name = '', $value = '', $key = '')
     {
@@ -90,7 +92,9 @@ class JSONServerReport extends ServerReport
         $actionContent = $this->getActionContent($name, $value);
 
         // Append to reports
-        return $this->addAction($actionContent, $key);
+        $this->addAction($actionContent, $key);
+
+        return $this;
     }
 
     /**
@@ -101,13 +105,15 @@ class JSONServerReport extends ServerReport
      *                              If set, the action will be available at the given key, otherwise it will inserted
      *                              in the array with a numeric key (next array key).
      *
-     * @return $this
+     * @return JSONServerReport
      */
     public function addAction($actionContent = [], $key = '')
     {
         $reportContent = $this->getReportContent($type = self::CONTENT_ACTION, $actionContent);
 
-        return parent::addReportContent($reportContent, $key);
+        parent::addReportContent($reportContent, $key);
+
+        return $this;
     }
 
     /**
@@ -119,7 +125,7 @@ class JSONServerReport extends ServerReport
      * @param bool   $withCredentials The allow credentials header value for the ServerReport response headers.
      *                                It is TRUE by default.
      *
-     * @return string The server report in json format.
+     * @return JSONServerReport
      */
     public function send($allowOrigin = '', $withCredentials = true)
     {
@@ -140,7 +146,9 @@ class JSONServerReport extends ServerReport
         $this->setContent(json_encode($fullReport, JSON_FORCE_OBJECT));
 
         // Get the report
-        return parent::send(parent::CONTENT_APP_JSON);
+        parent::send(parent::CONTENT_APP_JSON);
+
+        return $this;
     }
 
     /**
@@ -156,7 +164,7 @@ class JSONServerReport extends ServerReport
      *
      * @return array
      */
-    public function parseReportContent($report, &$actions = [], &$contents = [], &$headers = [])
+    public static function parseReportContent($report, &$actions = [], &$contents = [], &$headers = [])
     {
         // Decode report to array (from json)
         $reportArray = json_decode($report, true);

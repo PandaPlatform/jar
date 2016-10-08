@@ -56,7 +56,7 @@ class HTMLResponse extends JSONResponse
      *                                   If set, the content will be available at the given key, otherwise it will
      *                                   inserted in the array with a numeric key (next array key).
      *
-     * @return $this
+     * @return HTMLResponse
      */
     public function addResponseContent($content, $type = self::CONTENT_HTML, $holder = '', $method = self::REPLACE_METHOD, $key = '')
     {
@@ -64,7 +64,9 @@ class HTMLResponse extends JSONResponse
         $response = $this->generateHTMLResponseContent($content, $holder, $method);
 
         // Append to responses
-        return parent::addResponseContent($response, $key, $type);
+        parent::addResponseContent($response, $key, $type);
+
+        return $this;
     }
 
     /**

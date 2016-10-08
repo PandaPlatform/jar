@@ -29,6 +29,8 @@ class MIMEResponse extends AsyncResponse
      * @param string $suggestedFileName
      * @param string $disposition
      * @param bool   $ignore_user_abort
+     *
+     * @return MIMEResponse
      */
     public function setFile($file, $type = self::CONTENT_APP_STREAM, $suggestedFileName = '', $disposition = 'attachment', $ignore_user_abort = false)
     {
@@ -37,6 +39,8 @@ class MIMEResponse extends AsyncResponse
 
         // Set response content
         $this->content = file_get_contents($file);
+
+        return $this;
     }
 
     /**
@@ -47,6 +51,8 @@ class MIMEResponse extends AsyncResponse
      * @param string $suggestedFileName
      * @param string $disposition
      * @param bool   $ignore_user_abort
+     *
+     * @return MIMEResponse
      */
     public function setFileContents($fileContents, $type = self::CONTENT_APP_STREAM, $suggestedFileName = '', $disposition = 'attachment', $ignore_user_abort = false)
     {
@@ -55,6 +61,8 @@ class MIMEResponse extends AsyncResponse
 
         // Set response content
         $this->content = $fileContents;
+
+        return $this;
     }
 
     /**
@@ -64,6 +72,8 @@ class MIMEResponse extends AsyncResponse
      * @param string $suggestedFileName
      * @param string $disposition
      * @param bool   $ignore_user_abort
+     *
+     * @return MIMEResponse
      */
     private function setHeaders($type = self::CONTENT_APP_STREAM, $suggestedFileName = '', $disposition = 'attachment', $ignore_user_abort = false)
     {
@@ -74,5 +84,7 @@ class MIMEResponse extends AsyncResponse
 
         // Set buffer settings
         ignore_user_abort($ignore_user_abort);
+
+        return $this;
     }
 }
