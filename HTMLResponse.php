@@ -39,6 +39,13 @@ class HTMLResponse extends JSONResponse
     const APPEND_METHOD = 'append';
 
     /**
+     * The prepend method identifier.
+     *
+     * @var string
+     */
+    const PREPEND_METHOD = 'prepend';
+
+    /**
      * The extra content 'popup' type.
      *
      * @var string
