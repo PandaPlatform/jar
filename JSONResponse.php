@@ -18,8 +18,6 @@ use InvalidArgumentException;
  * Creates an asynchronous server response in JSON format according to user request.
  *
  * @package Panda\Jar
- *
- * @version 0.1
  */
 class JSONResponse extends AsyncResponse
 {
@@ -60,7 +58,7 @@ class JSONResponse extends AsyncResponse
      *                        array with a numeric key (next array key).
      * @param string $type    The content's type.
      *
-     * @return JSONResponse
+     * @return $this
      */
     public function addResponseContent($content, $key = '', $type = self::CONTENT_JSON)
     {
@@ -82,7 +80,7 @@ class JSONResponse extends AsyncResponse
      *                      If set, the action will be available at the given key, otherwise it will inserted in the
      *                      array with a numeric key (next array key).
      *
-     * @return JSONResponse
+     * @return $this
      */
     public function addEventContent($name = '', $value = '', $key = '')
     {
@@ -101,7 +99,7 @@ class JSONResponse extends AsyncResponse
      *                             If set, the action will be available at the given key, otherwise it will inserted
      *                             in the array with a numeric key (next array key).
      *
-     * @return JSONResponse
+     * @return $this
      */
     public function addEvent($eventContent = [], $key = '')
     {
@@ -119,7 +117,7 @@ class JSONResponse extends AsyncResponse
      *                                If empty, calculate the inner allow origin of the framework (more secure).
      * @param bool   $withCredentials The allow credentials header value for the AsyncResponse response headers.
      *
-     * @return JSONResponse
+     * @return $this
      */
     public function send($allowOrigin = '', $withCredentials = true)
     {

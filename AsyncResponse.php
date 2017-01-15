@@ -19,8 +19,6 @@ use Symfony\Component\HttpFoundation\Response;
  * It's an abstract class to support JSON responses, providing basic functionality.
  *
  * @package Panda\Jar
- *
- * @version 0.1
  */
 abstract class AsyncResponse extends Response
 {
@@ -110,7 +108,7 @@ abstract class AsyncResponse extends Response
      *                       array with a numeric key (next array key).
      * @param bool   $merge  Whether to merge the given header with an existing value or not (replace).
      *
-     * @return AsyncResponse
+     * @return $this
      */
     public function addResponseHeader($header, $key = '', $merge = true)
     {
@@ -133,7 +131,7 @@ abstract class AsyncResponse extends Response
      *                        If set, the context will be available at the given key, otherwise it will inserted in
      *                        the array with a numeric key (next array key).
      *
-     * @return AsyncResponse
+     * @return $this
      */
     public function addResponseContent($content, $key = '')
     {
@@ -151,7 +149,7 @@ abstract class AsyncResponse extends Response
      *
      * @param string $type
      *
-     * @return AsyncResponse
+     * @return $this
      */
     public function send($type = self::CONTENT_TEXT_HTML)
     {

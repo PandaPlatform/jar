@@ -19,8 +19,6 @@ use InvalidArgumentException;
  * Creates an asynchronous server response in HTML format according to user request.
  *
  * @package Panda\Jar
- *
- * @version 0.1
  */
 class HTMLResponse extends JSONResponse
 {
@@ -63,7 +61,7 @@ class HTMLResponse extends JSONResponse
      *                                   If set, the content will be available at the given key, otherwise it will
      *                                   inserted in the array with a numeric key (next array key).
      *
-     * @return HTMLResponse
+     * @return $this
      */
     public function addResponseContent($content, $type = self::CONTENT_HTML, $holder = '', $method = self::REPLACE_METHOD, $key = '')
     {

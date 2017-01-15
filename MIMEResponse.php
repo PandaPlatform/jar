@@ -16,8 +16,6 @@ namespace Panda\Jar;
  * Returns an http response and performs a download of a server file.
  *
  * @package Panda\Jar
- *
- * @version 0.1
  */
 class MIMEResponse extends AsyncResponse
 {
@@ -30,7 +28,7 @@ class MIMEResponse extends AsyncResponse
      * @param string $disposition
      * @param bool   $ignore_user_abort
      *
-     * @return MIMEResponse
+     * @return $this
      */
     public function setFile($file, $type = self::CONTENT_APP_STREAM, $suggestedFileName = '', $disposition = 'attachment', $ignore_user_abort = false)
     {
@@ -52,7 +50,7 @@ class MIMEResponse extends AsyncResponse
      * @param string $disposition
      * @param bool   $ignore_user_abort
      *
-     * @return MIMEResponse
+     * @return $this
      */
     public function setFileContents($fileContents, $type = self::CONTENT_APP_STREAM, $suggestedFileName = '', $disposition = 'attachment', $ignore_user_abort = false)
     {
@@ -73,7 +71,7 @@ class MIMEResponse extends AsyncResponse
      * @param string $disposition
      * @param bool   $ignore_user_abort
      *
-     * @return MIMEResponse
+     * @return $this
      */
     private function setHeaders($type = self::CONTENT_APP_STREAM, $suggestedFileName = '', $disposition = 'attachment', $ignore_user_abort = false)
     {
