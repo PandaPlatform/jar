@@ -1,21 +1,21 @@
-# Panda Json API Responses Component
-This is the Panda Json API Responses Component.
+# Panda Json API Responses (JAR) Package
+
+This is the Panda Json API Responses Package.
 
 [![StyleCI](https://styleci.io/repos/61446268/shield)](https://styleci.io/repos/61446268)
 
-This component is able to generate json responses in a structural way, including a head and a body.
+This package is able to generate json responses in a structural way, including a head and a body.
 
-## Panda PHP Framework
-Panda is a web application framework build with simplicity and wisdom. We are building Panda to be a light yet powerfull framework that will be part of the web php community. Panda includes a lot of common libraries but also includes functionality for common tasks and needs for many web projects like sessions, routing, authentication and more.
+You can read a full documentation on the functionality of the package from the [wiki](https://github.com/PandaPlatform/panda-jar-php/wiki) of this repository.
 
-## Official Documentation
+## Installation
 
-We are working on our documentation for the framework which will can found on the [Panda website](http://pandaphp.org/docs).
+This package is part of the [Panda Framework](https://github.com/PandaPlatform/panda-framework) but it's also available as a single package.
 
-## Contributing
+### Through the composer
 
-Thank you for considering contributing to the Panda framework! The contribution guide can be found in the [Panda documentation](http://pandaphp.org/docs/contributions).
+Add the following line to your `composer.json` file:
 
-## License
-
-The Panda framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+```
+"panda/l10n": "~1.0"
+```
