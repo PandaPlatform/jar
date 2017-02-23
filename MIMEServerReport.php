@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Panda framework Jar component.
+ * This file is part of the Panda Jar Package.
  *
  * (c) Ioannis Papikas <papikas.ioan@gmail.com>
  *
@@ -16,9 +16,6 @@ namespace Panda\Jar;
  * Returns an http response and performs a download of a server file.
  *
  * @package    Panda\Jar
- *
- * @version    0.1
- *
  * @deprecated Use MIMEResponse instead.
  */
 class MIMEServerReport extends ServerReport

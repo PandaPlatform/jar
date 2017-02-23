@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Panda framework Jar component.
+ * This file is part of the Panda Jar Package.
  *
  * (c) Ioannis Papikas <papikas.ioan@gmail.com>
  *

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the Panda framework Jar component.
+ * This file is part of the Panda Jar Package.
  *
  * (c) Ioannis Papikas <papikas.ioan@gmail.com>
  *
@@ -18,9 +18,6 @@ namespace Panda\Jar;
  * Abstract class that provides the right function handlers for forming a server report.
  *
  * @package    Panda\Jar
- *
- * @version    0.1
- *
  * @deprecated Use AsyncResponse instead.
  */
 abstract class ServerReport extends AsyncResponse
