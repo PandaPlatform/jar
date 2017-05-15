@@ -118,6 +118,7 @@ class JSONResponse extends AsyncResponse
      * @param bool   $withCredentials The allow credentials header value for the AsyncResponse response headers.
      *
      * @return $this
+     * @throws \UnexpectedValueException
      */
     public function send($allowOrigin = '', $withCredentials = true)
     {
@@ -155,6 +156,7 @@ class JSONResponse extends AsyncResponse
      *                         key.
      *
      * @return array
+     * @throws InvalidArgumentException
      */
     public static function parseResponseContent($response, &$headers = [], &$content = [], &$events = [])
     {

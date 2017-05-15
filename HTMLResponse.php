@@ -62,6 +62,7 @@ class HTMLResponse extends JSONResponse
      *                                   inserted in the array with a numeric key (next array key).
      *
      * @return $this
+     * @throws InvalidArgumentException
      */
     public function addResponseContent($content, $type = self::CONTENT_HTML, $holder = '', $method = self::REPLACE_METHOD, $key = '')
     {
