@@ -1,11 +1,11 @@
 {
     "name": "panda/jar",
-    "description": "The Panda framework Json API Responses component.",
+    "description": "The Panda Jar Package.",
     "license": "MIT",
     "homepage": "http://pandaphp.org",
     "support": {
-        "issues": "https://github.com/PandaPlatform/panda-jar-be/issues",
-        "source": "https://github.com/PandaPlatform/panda-jar-be"
+        "source": "https://github.com/PandaPlatform/jar",
+        "issues": "https://github.com/PandaPlatform/jar/issues"
     },
     "authors": [
         {
@@ -14,15 +14,21 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9",
+        "php": "^7.0",
         "symfony/http-foundation": "2.8.*|3.0.*"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.1"
+        "phpunit/phpunit": "~5.7"
     },
     "autoload": {
         "psr-4": {
             "Panda\\Jar\\": ""
+        }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev"
         }
     }
 }
