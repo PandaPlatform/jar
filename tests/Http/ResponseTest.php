@@ -11,6 +11,9 @@
 
 namespace Panda\Jar\Http;
 
+use DOMDocument;
+use DOMElement;
+use Panda\Jar\Model\Content\HtmlContent;
 use Panda\Jar\Model\Content\JsonContent;
 use Panda\Jar\Model\Header\ResponseHeader;
 use PHPUnit\Framework\TestCase;
@@ -55,6 +58,19 @@ class ResponseTest extends TestCase
         $this->assertEquals($header->toArray(), $this->response->getResponseHeaders()['a_header']);
         $this->assertEquals($content->toArray(), $this->response->getResponseContent()['a_content']);
 
+        // Add html content to response
+        // Set DOMElement payload
+        $document = new DOMDocument();
+        $element = new DOMElement('div', 'value');
+        $document->appendChild($element);
+        $element->setAttribute('class', 'test');
+        $htmlContent = (new HtmlContent())
+            ->setMethod(HtmlContent::METHOD_APPEND)
+            ->setHolder('html_holder')
+            ->setPayload('html_payload')
+            ->setDOMElementPayload($element);
+        $this->response->addResponseContent($htmlContent, 'b_content');
+
         // Send response and check content
         $this->response->send();
         $this->assertEquals(json_encode([
@@ -63,6 +79,7 @@ class ResponseTest extends TestCase
             ],
             'content' => [
                 'a_content' => $content->toArray(),
+                'b_content' => $htmlContent->toArray(),
             ],
         ], JSON_FORCE_OBJECT), $this->response->getContent());
     }
