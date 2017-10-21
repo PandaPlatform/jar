@@ -25,10 +25,14 @@
             "Panda\\Jar\\": ""
         }
     },
-    "minimum-stability": "dev",
+    "autoload-dev": {
+        "psr-4": {
+            "Panda\\Jar\\": "tests"
+        }
+    },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0-dev"
+            "dev-master": "3.0-dev"
         }
     }
 }
