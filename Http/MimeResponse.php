@@ -9,20 +9,18 @@
  * file that was distributed with this source code.
  */
 
-namespace Panda\Jar;
+namespace Panda\Jar\Http;
 
 /**
- * Multipurpose Internet Mail Extensions (MIME) Response
- * Returns an http response and performs a download of a server file.
- *
- * @package Panda\Jar
+ * Class MIMEResponse
+ * @package Panda\Jar\Http
  */
-class MIMEResponse extends AsyncResponse
+class MimeResponse extends Response
 {
     /**
      * Set the file to be sent.
      *
-     * @param string $file
+     * @param string $filePath
      * @param string $type
      * @param string $suggestedFileName
      * @param string $disposition
@@ -30,13 +28,13 @@ class MIMEResponse extends AsyncResponse
      *
      * @return $this
      */
-    public function setFile($file, $type = self::CONTENT_APP_STREAM, $suggestedFileName = '', $disposition = 'attachment', $ignore_user_abort = false)
+    public function setFile($filePath, $type = self::CONTENT_APP_STREAM, $suggestedFileName = '', $disposition = 'attachment', $ignore_user_abort = false)
     {
         // Set response headers
         $this->setHeaders($type, $suggestedFileName, $disposition, $ignore_user_abort);
 
         // Set response content
-        $this->content = file_get_contents($file);
+        $this->content = file_get_contents($filePath);
 
         return $this;
     }
@@ -77,8 +75,7 @@ class MIMEResponse extends AsyncResponse
     {
         // Set Response Headers
         $this->headers->set('Content-Type', $type);
-        $disposition = ($disposition ?: 'attachment');
-        $this->headers->set('Content-Disposition', $disposition . '; filename=' . $suggestedFileName);
+        $this->headers->set('Content-Disposition', ($disposition ?: 'attachment') . '; filename=' . $suggestedFileName);
 
         // Set buffer settings
         ignore_user_abort($ignore_user_abort);
