@@ -19,9 +19,29 @@ Add the following line to your `composer.json` file:
 "panda/jar": "^3.0"
 ```
 
-## Usage
+## Target Audience
 
-Using simple Json Content:
+This library was created to facilitate the development of web applications where the ui is generated on the backend.
+This way we can freely build the ui using any library we need and simply push it to the frontend through the `jar` library.
+
+The library provides the flexibility to allow the Javascript client to be dummy and have a standard response handler for all the cases.
+This way, we are free to determine how the content will be handled from the backend without writing any Javascript code.
+
+The only way where we need to write some Javascript will be to handle backend-generated events towards the frontend.
+In this case, we have to build the frontend client to listen for specific events and include a callback. 
+
+## Content Models
+
+The jar package support a set of models that can be either `JsonContent` or `XmlContent`, which supports specific xml parsers.
+
+Based on the needs of each application, you can use a content model that suits best for your occasion.
+
+### JsonContent
+
+JsonContent should be used when we want to deliver simple json string to the client.
+The client should know how to parse the content accordingly.
+
+Example:
 ```php
 use \Panda\Jar\Http\Response;
 use \Panda\Jar\Model\Content\JsonContent;
@@ -47,7 +67,33 @@ The above output would be something like this:
 }
 ```
 
-Adding html to async responses:
+### EventContent (extends JsonContent)
+
+EventContent is a special type of JsonContent that represents an event that should be triggered to the frontend client.
+We can use EventContents to trigger a specific event like a redirect or any javascript action.
+
+EventContent has two attributes:
+- A name, which will be the event name
+- A payload, in json format, which will be the event payload
+
+### XmlContent
+
+XmlContent is a special type of content which supports parsing DOMElements.
+The use of the XmlContent model is to transfer xml through json so that the client can handle it accordingly.
+
+### HtmlContent (extends XmlContent)
+
+HtmlContent is a special type of XmlContent which transfers html.
+It uses the same parser as the XmlContent to convert html to string and to transfer it to the client.
+
+The HtmlContent has some extra parameters that can be set to facilitate html handling on the client side:
+- A **holder**, which is a CSS selector to point out where this html is going to be placed
+- A **method**, which will describe how the html will be placed into the holder
+  - **Append**: it will append the html in the end of the placeholder contents
+  - **Prepend**: it will prepend the html in the beginning of the placeholder contents
+  - **Replace**: it will replace the placeholder's html with the given html
+
+Example:
 ```php
 use \Panda\Jar\Http\Response;
 use \Panda\Jar\Model\Content\HtmlContent;
@@ -66,7 +112,6 @@ $element->setAttribute('class', 'test');
 $htmlContent = (new HtmlContent())
     ->setMethod(HtmlContent::METHOD_APPEND)
     ->setHolder('html_holder')
-    ->setPayload('html_payload')
     ->setDOMElementPayload($element);
     
 // Add content to response
@@ -88,7 +133,10 @@ The above output would be something like this:
 }
 ```
 
-#### Distinguishing response content
+You can use any ui library to generate the HtmlContent. If you have access to DOMElement, it will be much easier
+Otherwise, you can simply provide the html as string using the `setPayload()` function.
 
-The client side should be able to distinguish the content in the response from the type attribute. Each content should
-have a different type value to separate the behavior of the client's javascript code.
+## Distinguishing response content
+
+The client side should be able to distinguish the content in the response from the `type` attribute.
+Each content should have a different type value to separate the behavior of the client's javascript code.
