@@ -41,6 +41,7 @@ class ResponseTest extends TestCase
 
     /**
      * @covers \Panda\Jar\Model\BaseModel::toArray
+     * @throws \InvalidArgumentException
      */
     public function testAddResponseHeader()
     {

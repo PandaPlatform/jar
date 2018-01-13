@@ -31,4 +31,32 @@ class EventContent extends ResponseContent
     {
         $this->setType(self::CONTENT_TYPE);
     }
+
+    /**
+     * @param array|string $name
+     *
+     * @return $this
+     */
+    public function setName($name)
+    {
+        // Set name in payload
+        $payload = $this->getPayload();
+        $payload['name'] = $name;
+
+        return $this->setPayload($payload);
+    }
+
+    /**
+     * @param array|string $value
+     *
+     * @return $this
+     */
+    public function setValue($value)
+    {
+        // Set name in payload
+        $payload = $this->getPayload();
+        $payload['value'] = $value;
+
+        return $this->setPayload($payload);
+    }
 }
