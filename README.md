@@ -3,9 +3,28 @@
 This is the Panda Json API Responses Package.
 
 [![StyleCI](https://styleci.io/repos/61446268/shield)](https://styleci.io/repos/61446268)
+[![Latest Stable Version](https://poser.pugx.org/panda/jar/v/stable?format=flat-square)](https://packagist.org/packages/panda/jar)
+[![Total Downloads](https://poser.pugx.org/panda/jar/downloads?format=flat-square)](https://packagist.org/packages/panda/jar)
+[![License](https://poser.pugx.org/panda/jar/license?format=flat-square)](https://packagist.org/packages/panda/jar)
 
-This package is able to generate json responses in a structural way, including headers and content. 
-Provides a new method of building json responses with pre-defined models that can easily be parsed on the client side using javascript.
+- [Introduction](#introduction)
+- [Installation](#installation)
+  - [Through the composer](#through-the-composer)
+- [Target Audience](#target-audience)
+- [Content Models](#content-models)
+  - [JsonContent](#jsoncontent)
+  - [EventContent](#eventcontent)
+  - [XmlContent](#xmlcontent)
+  - [HtmlContent](#htmlcontent)
+- [Distinguishing response content](#distinguishing-response-content)
+
+## Introduction
+
+The base response object consists of a list of headers and a list of content objects.
+The AsyncResponse base object offers an interface for adding headers and content. 
+
+However, it does not generate the response output.
+The output can be json (which is also the purpose of this component) but can also be something else, like xml.
 
 ## Installation
 
@@ -14,7 +33,6 @@ This package is part of the [Panda Framework](https://github.com/PandaPlatform/f
 ### Through the composer
 
 Add the following line to your `composer.json` file:
-
 ```
 "panda/jar": "^3.0"
 ```
@@ -67,7 +85,7 @@ The above output would be something like this:
 }
 ```
 
-### EventContent (extends JsonContent)
+### EventContent
 
 EventContent is a special type of JsonContent that represents an event that should be triggered to the frontend client.
 We can use EventContents to trigger a specific event like a redirect or any javascript action.
@@ -76,12 +94,86 @@ EventContent has two attributes:
 - A name, which will be the event name
 - A payload, in json format, which will be the event payload
 
+Example:
+```php
+use \Panda\Jar\Http\Response;
+use \Panda\Jar\Model\Content\EventContent;
+
+// Create a new response
+$response = new Response();
+
+// Add an page reload event
+$content = (new EventContent())->setName('window.reload');
+$response->addResponseContent($content);
+```
+
+The above output would be something like this:
+```json
+{
+  "headers": {},
+  "content": {
+    "0": {
+      "type": "event",
+      "payload": {
+        "name": "window.reload",
+        "value": ""
+      }
+    }
+  }
+}
+```
+
+You can catch the above event using `jQuery` like this:
+```javascript
+$(document).on('window.reload', function(ev) {
+    location.reload();
+});
+```
+
+Or you can use an EventContent with a value and use the value as attribute to the event:
+```php
+use \Panda\Jar\Http\Response;
+use \Panda\Jar\Model\Content\EventContent;
+
+// Create a new response
+$response = new Response();
+
+// Add a redirect event with target url
+$content = (new EventContent())
+    ->setName('window.redirect')
+    ->setValue('https://pandaphp.org');
+$response->addResponseContent($content);
+```
+
+The above output would be something like this:
+```json
+{
+  "headers": {},
+  "content": {
+    "0": {
+      "type": "event",
+      "payload": {
+        "name": "window.redirect",
+        "value": "https://pandaphp.org"
+      }
+    }
+  }
+}
+```
+
+You can catch the above event using `jQuery` like this:
+```javascript
+$(document).on('window.redirect', function(ev, value) {
+    window.location = value;
+});
+```
+
 ### XmlContent
 
 XmlContent is a special type of content which supports parsing DOMElements.
 The use of the XmlContent model is to transfer xml through json so that the client can handle it accordingly.
 
-### HtmlContent (extends XmlContent)
+### HtmlContent
 
 HtmlContent is a special type of XmlContent which transfers html.
 It uses the same parser as the XmlContent to convert html to string and to transfer it to the client.
@@ -111,7 +203,7 @@ $element->setAttribute('class', 'test');
 // Set DOMElement payload
 $htmlContent = (new HtmlContent())
     ->setMethod(HtmlContent::METHOD_APPEND)
-    ->setHolder('html_holder')
+    ->setHolder('.holder_class')
     ->setDOMElementPayload($element);
     
 // Add content to response
@@ -125,7 +217,7 @@ The above output would be something like this:
   "content": {
     "html_content": {
       "method": "append",
-      "holder": "html_holder",
+      "holder": ".holder_class",
       "type": "html",
       "payload": "<div class=\"test\">value</div>"
     }
