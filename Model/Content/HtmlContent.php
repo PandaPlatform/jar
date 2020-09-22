@@ -11,6 +11,8 @@
 
 namespace Panda\Jar\Model\Content;
 
+use DOMElement;
+
 /**
  * Class HtmlContent
  * @package Panda\Jar\Model\Content
@@ -108,6 +110,18 @@ class HtmlContent extends XmlContent
     public function setHolder(string $holder)
     {
         $this->holder = $holder;
+
+        return $this;
+    }
+
+    /**
+     * @param DOMElement $element
+     *
+     * @return $this
+     */
+    public function setDOMElementPayload(DOMElement $element)
+    {
+        $this->setPayload($element->ownerDocument->saveHTML($element));
 
         return $this;
     }
