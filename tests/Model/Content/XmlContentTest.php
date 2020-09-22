@@ -45,4 +45,26 @@ class XmlContentTest extends TestCase
         $contentArray = $content->toArray();
         $this->assertEquals('<div class="test">value</div>', $contentArray['payload']);
     }
+
+    /**
+     * @covers \Panda\Jar\Model\Content\XmlContent::setDOMElementPayload
+     */
+    public function testSetDOMElementPayload()
+    {
+        // Set DOMElement payload
+        $document = new DOMDocument();
+        $parent = new DOMElement('div');
+        $document->appendChild($parent);
+        $parent->setAttribute('class', 'parent');
+        $child1 = new DOMElement('div');
+        $parent->appendChild($child1);
+        $child1->setAttribute('class', 'child1');
+        $child2 = new DOMElement('div');
+        $parent->appendChild($child2);
+        $child2->setAttribute('class', 'child2');
+
+        // Create content
+        $content = (new XmlContent())->setDOMElementPayload($parent);
+        $this->assertEquals('<div class="parent"><div class="child1"/><div class="child2"/></div>', $content->getPayload());
+    }
 }
