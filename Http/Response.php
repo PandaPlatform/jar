@@ -11,6 +11,8 @@
 
 namespace Panda\Jar\Http;
 
+use Exception;
+use InvalidArgumentException;
 use Panda\Jar\Model\Content\ResponseContent;
 use Panda\Jar\Model\Header\ResponseHeader;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -133,7 +135,8 @@ class Response extends JsonResponse
      * @param bool   $withCredentials
      *
      * @return $this
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function send($allowOrigin = '', $withCredentials = true)
     {
@@ -152,7 +155,15 @@ class Response extends JsonResponse
             'headers' => $this->getResponseHeaders(),
             'content' => $this->getResponseContent(),
         ];
-        $this->setJson(json_encode($response, JSON_FORCE_OBJECT));
+        $json = json_encode($response, JSON_FORCE_OBJECT);
+
+        // Check if json is valid
+        if ($json === false) {
+            throw new Exception('The given response headers or content cannot be converted to json. Check your content and try again.');
+        }
+
+        // Set response json
+        $this->setJson($json);
 
         // Send the response
         parent::send();
