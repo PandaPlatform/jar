@@ -34,7 +34,7 @@ This package is part of the [Panda Framework](https://github.com/PandaPlatform/f
 
 Add the following line to your `composer.json` file:
 ```
-"panda/jar": "^3.0"
+"panda/jar": "^4.0"
 ```
 
 ## Target Audience
