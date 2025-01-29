@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * Class AsyncResponse
+ *
  * @package Panda\Jar\Http
  */
 class Response extends JsonResponse
@@ -138,7 +139,7 @@ class Response extends JsonResponse
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    public function send($allowOrigin = '', $withCredentials = true)
+    public function send(bool $flush = true, $allowOrigin = '', $withCredentials = true): static
     {
         // Set allow origin
         if (!empty($allowOrigin)) {
@@ -166,7 +167,7 @@ class Response extends JsonResponse
         $this->setJson($json);
 
         // Send the response
-        parent::send();
+        parent::send($flush);
 
         return $this;
     }
